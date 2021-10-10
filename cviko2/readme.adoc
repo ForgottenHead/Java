@@ -1,0 +1,50 @@
+= Programovací jazyk Java
+
+== Cvičení 2
+
+//TODO Ukázalo lepší tadu naprogramovat RPG hru s hrdinou včetne greenfoot.
+
+Něco jako: Hrdnina mlže choit po mapě, bojovat s nepříteli ty zabít a vzít si něco od nich.
+Nakonec zautočí na velkého draka.
+
+== Co dnes procvičíme
+
+Vytvoření jednoduchého datového objektu tzv: POJO
+
+* Konstruktory
+* Klíčové slovo this
+
+Procvičení implementace rozhraní a abstraktní třídy.
+
+* Dědičnost a konstruktory
+* Práce s metodami (překrytí, přetížení)
+
+Statické metody
+
+* Vytvoření jedináčka a identifikátory.
+* Ukážeme se framework GreenFoot
+
+== Pohádka o drakovy
+
+V příběhu existuje jediný drak a jmenuje se Šmak, nikdo nemůže odolat jeho síle deseti mužů a jeho šupiny jsou jak
+neprominutelné štíty.
+
+Zástupy statečných hrdinů se pokoušeli získat jeho poklad. Byli mezi nimi stateční rytíři s ostrými meči i obratní
+hraničáři s dlouhými luky. Rivalita mezi nimi byla taková, že nedokázali spojit své síly a často bojovali o to, kdo se
+s drakem utká první.
+
+Až jednou se na …
+
+=== Postup práce
+
+. Stáhněte si kostru projektu link:./pohadka.zip[pohadka.zip]
+* Nezapoňte nastavit java JDK!
+* Aplikaci si spusťe.
+. Navrhneme diagram tříd
+* Použijte kostru tříd z `src/main/java/cz.mendelu.pjj.pohadka.domain`
+* Doplňte jej o metody a vazby.
+. Seznámíme se s Greenfoot frameworkem
+* Kam se ztratila main metoda?
+* Rozdělení tríd na `GUI` - `domain`
+. Implementace v Jidei
+* Dopňte navržené metody
