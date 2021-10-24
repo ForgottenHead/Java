@@ -1,0 +1,124 @@
+= Práce s řetězci a výjimkami
+
+Dnešní cvičení je zaměřené na práci s řetězci a výjimkami.
+
+== Šibenice
+
+S řetězci budeme pracovat v rámci implementace známe hry šibenice.
+V této hře je vybráno jedno náhodné slovo a uživatelé hádají, o které slovo jde.
+
+== Vytvoření databáze slov.
+
+Při načtení hry se načtou slova ze slovníku uloženého v souboru `cs_CZ.dic`.
+
+Do `main` metody je tedy potřeba dolnit vytvoření slovníku, a sice na následujícím řádku:
+
+[source,java]
+----
+Dictionary dic = new Dictionary("cs_CZ.dic", null);
+----
+
+Je potřeba vysvětlit pojem *anonymní implementace rozhraní*:
+
+[source,java]
+----
+var dic = new Dictionary("cs_CZ.dic", new WordFilter() {
+    @Override
+    public boolean acceptWord(String word) {
+        return true; // Akceptujeme všechna slova
+    }
+
+    @Override
+    public String transformWord(String word) {
+        var transformed = word;
+        System.out.printf("%s\t --> \t%s\n", word, transformed);
+        return transformed;
+    }
+});
+----
+
+A upravte metody tak aby akceptovala všechna slova a vypisoval výsledek transformace.
+
+=== Filtrace podstatný
+
+_Následuje samostatný úkol, první 3 nerychlejí získají bod za aktivitu._
+
+Implementujte metodu `acceptWord` tak aby přijímala jen:
+* slova se sufixem `/H`
+* slova delší než 6 znaků
+
+====== Řešení
+
+[source,java]
+----
+@Override
+public boolean acceptWord(String word) {
+    return word.endsWith("/H") && word.length() >= 8;
+}
+----
+
+=== Uprava slov
+
+_Následují malé dílčí úkoly které studenti vypracovávají samostatne, opět za bod._
+
+Následujícím příkladu je potřeba slova upravit tak aby byla vhodná pro hádání:
+
+. Převod na lowerCase a odstranit sufix `/H`
+
+====== Řešení
+
+[source,java]
+----
+var transformed = word
+        .toLowerCase()
+        .substring(0, word.length() - 2);
+----
+
+. Odstranění znaků s českou diakritikou:
+ K tomu je potřeba definovat dvě pomocná pole, například v rámci filtru:
+
+A poté použít metody `replace()` na každý prvek pole pro všechna slova.
+
+====== Řešení
+
+[source,java]
+----
+for (int i = 0; i < accents.length; i++) {
+    transformed = transformed.replace(accents[i], replace[i]);
+}
+----
+
+== Implementace ascii-art
+
+Nyní budeme implementovat ascii pro výstup do konzole.
+
+Jedná se o tri metody z objektu `Hangman`.
+
+=== availableLetters()
+
+Tato metoda vrátí ascii art se seznamem ještě nehádaných písmen.
+Příklad metody je vidět v demo výstupu:
+
+_Ukázat že je důležité tento typ metod řešit přes StringBuilder kvůli výkonnosti._
+
+====== Řešení
+
+[source,java]
+----
+var sb = new StringBuilder();
+for (int i = 0; i < LETTRES.length(); i++) {
+    if (!selected[i]) {
+        sb.append(LETTRES.charAt(i)).append(" ");
+    } else {
+        sb.append("_ ");
+    }
+}
+return sb.toString();
+----
+
+_Studenty nechat samostatně vyřešit metodu `coveredWord()`.
+
+=== Samostatný úkol
+
+Zbytek zadad za samostatný úkol doma.
+S tím, že potřeba studenty upozornit, že v kódu jsou komentáře k výjimkám, které nutné také opravit.

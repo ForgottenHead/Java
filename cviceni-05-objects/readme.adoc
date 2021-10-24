@@ -1,0 +1,297 @@
+= Metody HashCode a Equals, dědičnost a vnitřní třídy
+
+Otevřete projekt _Robot_ a spusťte je pomocí třídy `RobotRunner` a zkuste s robotem následují činnosti:
+- chodit po mapě pomocí šipek
+- točit se také pomocí šipek
+- když se někam klikne, vloží se tam poklad
+- když na něj robot dojede, sebere jej.
+
+===== Zadání:
+
+Implementujte metody tříd `Robot` a `World` tak aby jste nepiřili žádný `if` (krom metod `equals`) a hlabně _žádný_ `switch`.
+V metody jsou označeny komentářem `// FIXME Upravit v samostatné práci`.
+
+== Implementace World
+
+Procvičení implementace metod `hashCode` a `equals`, `toString`._
+
+Použijeme třídu `Map`, tento objekt slouží jako dynamické pole.
+Pod určitým klíčem (libovolný objekt) uchovává (pamatuje) jiný objekt, který nam pak pod stejným klíče vrací.
+Podobnou třídu znáte z C++ jako `map`, php jako asociativní pole, …
+V rámci cvičení budeme používat tři metody:
+- `put(key, value)`: vloží do mapy objekt.
+- `get(key)`: získá objekt z mapy.
+- `remove(key)`: Odstraní objekt z mapy.
+
+_`Map` používáme bez generic, studenti ji ještě neznají._
+
+Ve třídě `World` máme dvourozměrné pole `Object[][] map` jak jej nahradit objektem `Map`, když potřebuje identifikovat položku pomocí dvou `int` x a y?
+Řešením je použití objektu `Coordinate` jako převky pro x a y.
+
+====== Uprava atributů třídy a konstruktoru
+
+Zakomentovat stávající implementaci a ukázate definici mapy.
+
+[source,java]
+----
+private final int width;
+private final int height;
+//private Object[][] map;
+private final Map map;
+
+public World(int width, int height) {
+   this.width = width;
+   this.height = height;
+   this.map = new HashMap();
+}
+----
+
+_Některým dělá problém import `import java.utils.Map`, nutno na to upozornit._
+
+====== Metoda `World.addTreasureAt`
+
+Musí se nechat parametry!
+
+[source,java]
+----
+public Object addTreasureAt(Object object, int x, int y){
+   //map[x][y] = object;
+   map.put(new Coordinate(x, y), object);
+   return object;
+}
+----
+
+====== Metoda `World.removeTreasureAt`
+
+[source,java]
+----
+public void removeTreasureAt(int x, int y){
+   // FIXME Upravit v samostatné práci
+   //if (x >= 0 && x < width && y >= 0 && y < height) {
+   //    map[x][y] = null;
+   //}
+   map.remove(new Coordinate(x, y));
+}
+----
+
+====== Metoda `World.getTreasureAt`
+
+[source,java]
+----
+public Object getTreasureAt(int x, int y){
+   // FIXME Upravit v samostatné práci
+   //if (x < 0) {
+   //    return null;
+   //} else if (x >= width) {
+   //    return null;
+   //} else if (y < 0) {
+   //    return null;
+   //} else if (y >= height) {
+   //    return null;
+   //} else {
+   //    return map[x][y];
+   //}
+   return map.get(new Coordinate(x, y));
+   }
+----
+
+=== Testování funkcionality
+
+Projekt spusťte a zkuste pracovat s poklady:
+Nemělo by to padat
+poklady budou mizet a nebudou se dát brát.
+
+To je proto, že objekt `Map` neví jak porovnávat klíče, objekty `Coordinate` porovnat.
+
+Pomocí generátoru metod `hashCode` a `equals` přidejte tyto metody do třídy `Coordinate`.
+V nabídce Jidea použijte generovací šablonu Javy 7+.
+
+Upozornit na to, že `Coordinate` musí být immutable, protože `Map` nemá jak zjistit, že se změnil._
+
+=== Dále toString()
+
+POdívejte se log, který se zobrazuje v jidei, co říkají řádky začínající: `INFO: Robot move forward to ...`
+
+Opět je potřeba použít generátor na vytvoření metodu `toString` kterou java použív vždy, když potřebuje převést objekt na text.
+
+Upravit jej aby vypisoval něco jako: `[x=1, y=2]`.
+
+Vysvětlit, že když se String sestavuje jedním příkazem, je to ok, ale jinak musí použití `StringBuilder`.
+
+== Implementace Robot
+
+Přípravné fázi:
+- nahradit atributy `int x, int y` za `Coordinate coordinate`
+- Nahradit `int direction` za `Direction direction`
+- Dále zakomentovat všechny chyby
+- Přeimplementovat konstruktor
+
+[source,java]
+----
+   public Robot(int x, int y, /* int */ Direction direction) {
+       //this.x = x;
+       //this.y = y;
+       this.coordinate = new Coordinate(x, y);
+       this.direction = direction;
+   }
+----
+
+* Upravit konstanty v `Direction`
+```java
+public class Direction {
+
+public static final Direction NORTH = new Direction();
+ public static final Direction EAST = new Direction();
+ public static final Direction SOUTH = new Direction();
+ public static final Direction WEST = new Direction();
+
+}
+
+----
+
+A Uprate také metodu `getPosition`
+----
+
+public Coordinate getPosition() {
+ //return new Coordinate(x, y);
+ return coordinate;
+}
+
+----
+
+Dále je potřeba zakomentovat všechen kód všech metod ve třídě `Robot`, kde Java hlásí chybu.
+
+### Zobrazování pozice robota
+K tomu slouží metoda `getDirectionName`, představte si, jak to udělat, aby tato metoda vracela název směru?
+----
+
+public String getDirectionName() {
+ //switch (direction) {
+ // case Direction.NORTH:
+ // return "north";
+ // case Direction.SOUTH:
+ // return "south";
+ // case Direction.EAST:
+ // return "east";
+ // case Direction.WEST:
+ // return "west";
+ //}
+ //throw new IllegalArgumentException();
+ return direction.getName();
+}
+
+----
+
+Řešením je přidat parametr `name` a metodu `getName()` do třídy `Direction`.
+Pozor jména směrů *musí* být malým písmenem přesně jako je to ve `switch`.
+
+### Otáčení robota
+Pro otáčení robota je potřeba upravit dvě metody `turn*()`.
+Vhodným řešením, je implementován ve směru metody pro získání směru _v levo_ a _v pravo_ od aktuálního směru:
+----
+
+public void turnLeft() {
+ // FIXME Upravit v samostatné práci
+ //switch (direction) {
+ // case Direction.NORTH:
+ // direction = Direction.WEST;
+ // break;
+ // case Direction.SOUTH:
+ // direction = Direction.EAST;
+ // break;
+ // case Direction.EAST:
+ // direction = Direction.NORTH;
+ // break;
+ // case Direction.WEST:
+ // direction = Direction.SOUTH;
+ // break;
+ //}
+ direction = direction.onLeft();
+}
+
+----
+
+Problém je že směry nemůžeme dát jako parametr konstruktoru, jako je to v případě jména směru, protože v době inicializace první konstanty ostatní ještě neexistují.
+Musíme pro každý směr použít *jinou implementaci*, a to vyřešíme *dědičnosti*.
+
+##### Abstraktní třída `Direction`
+Protože instance přímo třídy směr ztratila význam, uděláme z ní abstraktní třídu s *private konstruktorem*.
+----
+
+public abstract class Direction {
+
+public static final Direction NORTH = new Direction("north");
+ public static final Direction EAST = new Direction("east");
+ public static final Direction SOUTH = new Direction("south");
+ public static final Direction WEST = new Direction("west");
+
+private final String name;
+
+private Direction(String name) {
+ this.name = name;
+ }
+
+public abstract Direction onLeft();
+ public abstract Direction onRight();
+
+public String getName() {
+ return name;
+ }
+}
+
+----
+
+Protože je třída abstraktní překladač hlásí chybu na řádcích s definicemi 4 konstant.
+Pro implementaci 4 potomků `Direction` *vytvořit* samostatné třídy, byli by totiž jednoúčelové a nikde jinde by nebyly použity, místo toho použít *anonymní implementaci*.
+
+###### Implementace NORTH:
+----
+
+public static final Direction NORTH = new Direction("north") {
+ @Override
+ public Direction onLeft() {
+ return WEST;
+ }
+
+@Override
+ public Direction onRight() {
+ return EAST;
+ }
+};
+
+----
+
+Obdobným způsobem provedeme implementaci ostatní směry.
+
+### Pohyb robota
+Posledním krokem je provedeme implementaci metody pro pohyb robota vpřed:
+----
+
+public void forward() {
+ // FIXME Upravit v samostatné práci
+ //switch (direction) {
+ // case Direction.NORTH:
+ // y -= 1;
+ // break;
+ // case Direction.SOUTH:
+ // y += 1;
+ // break;
+ // case Direction.EAST:
+ // x += 1;
+ // break;
+ // case Direction.WEST:
+ // x -=1;
+ // break;
+ //}
+ coordinate = direction.forwardFrom(coordinate);
+}
+```
+
+Metodu `forwardFrom` implementujte již samostatně.
+
+Coordinate _musí_ být immutable, protože se používá v mapě jako klíč._
+
+== Bonus na zamyšlení:
+
+Doplňte výpis do konzole v konstruktoru objektu `Coordinate`, vždy vypiště souřadnici, která se právě tvoří.
+Aplikaci spusťte a prozkoumejte log, co jste zjistili?
