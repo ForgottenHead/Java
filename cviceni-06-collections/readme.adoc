@@ -1,0 +1,53 @@
+= Java Collections API
+
+===== Zadání:
+
+NAimplmntujte základ univerzitního infirmačního systému.
+
+== Přípravná fáze
+
+Otevřete projekt v tématu (pomocí `build.gradle`)
+
+Ten Obsahuje:
+1. Třídu `Student`, která obsahuje
+ - Bude obsahovat `String jmeno` a `String prijmeni`, tyto atributy každého studenta jednoznačně identifikují
+2. Třídu `Cviceni`, která obsahuje
+ - Bude obsahovat atribut `int kapacita`
+3. Třídu `Predmet`, která obsahuje
+ - Bude jednoznačně identifikována atributem `String kod`
+4. Třídu `Registrace`, která obsahuje
+ - Registrace je vždy vypsána pro nějaký předmět
+
+== 1. Úkol
+
+Vytvořte metody objektu `Cviceni`, které 
+
+* Umožní přihlásit studenta do cvičení, pokud to umožní kapacita cvičení: `boolean prihlasit(Student student)`
+* Vrátí kolekci zapsaných studentů: `Collection&lt;Student&gt; getStudents()`
+
+== 2. Úkol
+
+Vytvořte metody objektu `Predmet`, které:
+- Umožní v rámci předmětu vytvořit cvičení (cvičení jsou v rámci předmětu jednoznačně určena svým indexem): `Cviceni zalozCviceni(int kapacita)`
+- Vrátí kolekci cvičení `Collection&lt;Cviceni&gt; getCvicenis()`
+- Vrátí Cvičení: `Cviceni getCviceni(int index)`
+
+== 3. Úkol
+
+Vytvořte metody objektu `Predmet`, které
+- Umožní zapsat studenta do předmětu: `boolean zapisDoPredmetu(student)`
+- Vrátí abecedně setřesenou kolekci všech zapsaných studentů: `Collection&lt;Student&gt; getStudents()`
+
+== 4. Úkol
+
+Vytvořte metody objektu Predmet, které
+- Umožní přihlásit studenta do cvičení, pokud je zapsán v předmětu a v rámci předmětu se může student přihlásit pouze do jednoho cvičení.
+- Vypíše všechny studenty, kteří nejsou zapsáni do žádného cvičení: `Collection&lt;Student&gt; getStudentyBezCviceni()`
+
+== 5. Úkol
+
+Vytvořte metody objektu Registrace, které
+- Metodu `void zaregistruj(student)` pro registraci studenta k předmětu, každý student může být zaregistrován jen jednou.
+- Vypíše všechny studenty, kteří jsou zaregistrováni k předmětu v pořadí jak se registrovali: `Queue&lt;Student&gt; getStudents()`
+- Vytvořte metodu `int hromadnyZapis()`, která zapíse tolik studentů, kolik je kapacita všech cvičení v předmětu.
+ Metoda vratí zbylou kapacitu cvičení, což může být i záporné číslo v případě, že se nepodařilo zaregistrovat všechny studenty.
