@@ -20,7 +20,6 @@ public class Hangman {
 
     private Integer missed = 0;
 
-
     Hangman(Dictionary dictionary) {
         this.dictionary = dictionary;
         this.dictionary.shuffleWords();
@@ -150,15 +149,15 @@ public class Hangman {
         return false;
     }
 
-    public boolean isAvailable(int index){
+    public boolean isAvailable(int index) {
         return !unavailable[index];
     }
 
-    public String getLetter(int index){
+    public String getLetter(int index) {
         return letters.substring(index, index+1);
     }
 
-    public int getMissed(){
+    public int getMissed() {
         return missed;
     }
 }

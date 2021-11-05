@@ -22,7 +22,7 @@ public class LetterActor extends Actor {
     public void act() {
         if (Greenfoot.mouseClicked(this)) {
             String letter = hangman.getLetter(index);
-            if (!hangman.guessLetter(letter)){
+            if (!hangman.guessLetter(letter)) {
                 hangman.hangmanAsciiArt();
             }
             update();
@@ -32,10 +32,9 @@ public class LetterActor extends Actor {
     public void update() {
         var available = hangman.isAvailable(index);
         var image = (available)
-                ? new GreenfootImage(hangman.getLetter(index), 32, Color.BLACK, Color.WHITE) //ked je dostupny
-                : new GreenfootImage("_", 32, Color.BLACK, Color.WHITE); //ked nie je dostupny
+                ? new GreenfootImage(hangman.getLetter(index), 32, Color.BLACK, Color.WHITE)
+                : new GreenfootImage("_", 32, Color.BLACK, Color.WHITE);
         setImage(image);
     }
-
 
 }
