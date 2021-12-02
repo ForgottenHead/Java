@@ -1,0 +1,76 @@
+= Enumy a gnerické typy
+
+V dnešním cvičení se zameříme na enumy a genrické typy.
+Obě témata procvičím na zjednodučené variantě hry https://www.zatrolene-hry.cz/spolecenska-hra/witcher-the-adventure-card-game-404/[Witcher: The Adventure Card Game].
+
+== Zjednodušená varianta hry
+
+Hru zjednodučíme tak, že budeme mít pouze dva balíčky karet.
+Karty boje a kerty nestvůr. 
+
+Hráči se střídají a vybírají si karty boje nebo utok na nestvuru.
+Aktuální implementace funguje tak že:
+
+. Hrač ma tolik akci ve svém kole kolik chce
+. Nepočítá se výtěztví, tekže se hraje nekonečně.
+
+=== Karty boje
+
+Karty boje, jsou jednoho ze 4 typů boje definované ve třídě `Attack`:
+
+* Železným mečem
+* Stříbrným mečem
+* Znamením
+* Lektvarem
+
+Kromě základních, jsou ve hře ještě karty dvojité a žolík (univerzální útok)
+Karty boje jsou uloženy v balíčku a 4 z nich jsou vyločeny.
+
+=== Karty nestvůr
+
+Dále jsou ve hře karty nestvur.
+Ty bosahují kromě jména a textu, který v této zjedodišené variantě nehraje roli, počet výtězných bodů a kombinaci utoku, která ji zabije.
+
+Pokud se hráš rozhodne zautočit na nestvuru, přijde o všechny svoje karty.
+Pokud je nestvura zabita, uloží se karta mezi trofeje háče a na její místo přijde nová nestvura.
+
+== 1. Krok
+
+Aktuálně jsou typy utoku řešené pomocí konstant ve třídě `Attack`, upravte je na `enum`. 
+
+Spolu s upravou třídy `Attack` budete muset upravit všechny ostatní třídy, které používají k `Integer` pro práci s typem utoku.
+
+== 2. Krok
+
+V různých třídách se používají kolekce (`List`, `Set`, `Map`), ale bez negerickýct typů:
+
+* Třída `AttackCard`:
+* Atribute `attacks`
+* Metoda `getAttacks()`
+* Třída `Game`:
+* Atribut: `players`
+* Třída `MonsterCard`:
+* Atribute `technique`
+* Metoda `getTechnique()`
+* Třída `Player`
+* Aributy `monsters` a `inHand`
+* Metody `inHand()` a `trophies()`
+* Parametry metod `addAttackCard(Object attackCard)` a `attackTo(Object monsterCard)`.
+
+Speciílně u posledních dvou se zaměřte na to, jak diky generickým typů nemusíte řešeit přetypování v místě, kde se používají.
+
+== 3. Krok
+
+Karty jsou ve hře uchovávány v balíčku.
+`Deck` obsahuje vždy karty jednoho typu a umozňuje karty:
+
+* Vložit karty do decku
+* Zamíchat karty
+* Obebat vrchni kartu
+* Test jestli je prázdný
+
+Implementována třída `Deck` poskytuje pouze interface a dummy implementaci pro uvodní testování.
+
+== TODO příští semestr
+
+Doimplemntovat testy a regaktorovat grennfoot.

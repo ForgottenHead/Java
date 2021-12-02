@@ -1,0 +1,29 @@
+= Síťová komunikace
+Jan Kolomazník <jan.kolomaznik@mendelu.cz>
+v1.0, 2021-12-01
+:icons: font
+
+Na dnešním cvičení si vytvoříme sítovou variantu hry *Piškvorky*.
+Ve výchozím projektu si hru můžete zahrát sami se sebou.
+
+Když hru spustíte můžet kliknutím na herní plochu odehrát první tah.
+Následně se hra zastaví a jse vyzvání k zadání tahu druhého hráce, takto se simuluji budou síťová komunikace.
+
+[TIP]
+====
+V rámci takto jednoduché hry, kdy může protiháč provést pouze jeden typ tahu, je výhodnější zasílat pouze tahy.
+Pokud se jedná o komplexnější hru, kde se může v tahu hráče provést více akcí, pak je vhodnější zaslat celý stav hry.
+====
+
+== Implmentace Server pro piskvorky
+
+Naimplementujteš serve tak, že příjme v jeden okamžik maximálně jedno spojení.
+
+1. Pri startu spojení zašle v *json* aktuální stav hry.
+2. Čeká na tah hráče, například `1,2`.
+3. Ten teah realizuje a pak čeká na tah protiháče v gf.
+4. Jakmile hráč odtáhne pak, začle aktální stav a čeká na další tak od klineta.
+
+== Implementace Clienta
+
+Upravde *gf* tak aby se napojil na server a hrál jako druhý hráč.

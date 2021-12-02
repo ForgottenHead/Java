@@ -1,0 +1,14 @@
+\.gradle/
+\.idea/
+build/
+target/
+\.project
+\.classpath
+\.settings
+
+*.iml
+*.class
+*.cache
+
+topic/**/js/
+topic/**/index.html
